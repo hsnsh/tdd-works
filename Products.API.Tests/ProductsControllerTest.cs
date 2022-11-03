@@ -9,6 +9,7 @@ namespace Products.API.Tests
     public class ProductsControllerTest : IClassFixture<InMemoryWebApplicationFactory<Startup>>
     {
         private InMemoryWebApplicationFactory<Startup> factory;
+        private readonly string _baseUrl = "/api/v1/products";
 
         public ProductsControllerTest(InMemoryWebApplicationFactory<Startup> factory)
         {
@@ -19,7 +20,7 @@ namespace Products.API.Tests
         public async Task web_api_basari_testi()
         {
             var client = factory.CreateClient();
-            var response = await client.GetAsync("/api/products");
+            var response = await client.GetAsync($"{_baseUrl}");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
@@ -31,7 +32,7 @@ namespace Products.API.Tests
 
             var client = factory.CreateClient();
             var httpContent = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("/api/products", httpContent);
+            var response = await client.PostAsync($"{_baseUrl}", httpContent);
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             Assert.NotNull(response.Headers.Location);
@@ -44,7 +45,7 @@ namespace Products.API.Tests
             var request = new Product { Name = "X", Price = 100, Stock = 10 };
             var httpContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
             //Assert.NotNull(headerLocation.PathAndQuery);
-            var response = await client.PutAsync("api/products/3", httpContent);
+            var response = await client.PutAsync($"{_baseUrl}/3", httpContent);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
@@ -53,7 +54,7 @@ namespace Products.API.Tests
         public async Task get_by_id_request_test()
         {
             var client = factory.CreateClient();
-            var response = await client.GetAsync("/api/products/3");
+            var response = await client.GetAsync($"{_baseUrl}/3");
             var strinResult = await response.Content.ReadAsStringAsync();
             var jsonObject = JsonConvert.DeserializeObject<Product>(strinResult);
             Assert.Equal("750", jsonObject.Stock.ToString());
