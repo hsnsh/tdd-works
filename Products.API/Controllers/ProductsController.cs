@@ -18,7 +18,18 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public IActionResult GetProducts()
     {
-        var products = _productService.GetProducts();
+        var products = _productService.GetAllProducts();
+        return Ok(products);
+    }
+
+    [HttpGet("page-list")]
+    public IActionResult GetPageProducts(int pageNumber = 1, int pageSize = 10)
+    {
+        if (pageNumber < 1) pageNumber = 1;
+        if (pageSize < 1) pageSize = int.MaxValue;
+
+        int skipCount = (pageNumber - 1) * pageSize;
+        var products = _productService.GetPageProducts(skipCount, pageSize);
         return Ok(products);
     }
 
@@ -26,6 +37,13 @@ public class ProductsController : ControllerBase
     public IActionResult GetProductById(int id)
     {
         return Ok(_productService.GetProduct(id));
+    }
+
+    [HttpPost]
+    public IActionResult Add(Product product)
+    {
+        var newProduct = _productService.Add(product);
+        return CreatedAtAction(nameof(GetProductById), new { id = newProduct.Id }, null);
     }
 
     [HttpPut("{id}")]
@@ -41,10 +59,11 @@ public class ProductsController : ControllerBase
         return Ok(_productService.Edit(existingProduct));
     }
 
-    [HttpPost]
-    public IActionResult Add(Product product)
+    [HttpDelete("{id}")]
+    public IActionResult DeleteProduct(int id)
     {
-        var newProduct = _productService.Add(product);
-        return CreatedAtAction(nameof(GetProductById), new { id = newProduct.Id }, null);
+        _productService.Delete(id);
+
+        return NoContent();
     }
 }

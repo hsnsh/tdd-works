@@ -18,7 +18,10 @@ namespace Products.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ProductDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("db")));
+                options.UseSqlite(Configuration.GetConnectionString("db"), b =>
+                {
+                    b.MigrationsHistoryTable("__EFMigrationsHistory");
+                }));
 
             services.AddTransient<IProductService, ProductService>();
 

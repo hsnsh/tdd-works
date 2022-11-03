@@ -7,41 +7,68 @@ namespace Products.API.Services
     public class ProductService : IProductService
     {
         private readonly ProductDbContext _dbContext;
+        private readonly DbSet<Product> _dbSet;
 
         public ProductService(ProductDbContext dbContext)
         {
-            this._dbContext = dbContext;
+            _dbContext = dbContext;
+            _dbSet = _dbContext.Set<Product>();
         }
 
-        public Product Add(Product product)
+        public IEnumerable<Product> GetAllProducts()
         {
-            var entity = _dbContext.Products.Add(product).Entity;
-            _dbContext.SaveChanges();
-            return entity;
+            return _dbSet.ToList();
         }
 
-        public Product Delete(int id)
+        public IEnumerable<Product> GetPageProducts(int skipCount = 0, int maxResultCount = 10)
         {
-            var product = _dbContext.Products.Find(id);
-            var deletedProduct = _dbContext.Products.Remove(product).Entity;
-            return deletedProduct;
+            return _dbSet.AsQueryable()
+                .OrderBy(x => x.Id)
+                .Skip(skipCount).Take(maxResultCount)
+                .ToList();
         }
 
-        public Product Edit(Product product)
+        public long GetCount()
         {
-            _dbContext.Entry(product).State = EntityState.Modified;
-            _dbContext.SaveChanges();
-            return product;
+            return _dbSet.LongCount();
         }
 
         public Product GetProduct(int id)
         {
-            return _dbContext.Products.Find(id);
+            return _dbSet.FirstOrDefault(x => x.Id.Equals(id));
         }
 
-        public IEnumerable<Product> GetProducts()
+        public Product Add(Product product)
         {
-            return _dbContext.Products.ToList();
+            var savedEntity = _dbSet.Add(product).Entity;
+            _dbContext.SaveChanges();
+            return savedEntity;
+        }
+
+        public Product Edit(Product product)
+        {
+            _dbContext.Attach(product);
+
+            var updatedEntity = _dbContext.Update(product).Entity;
+
+            _dbContext.SaveChanges();
+
+            return updatedEntity;
+        }
+
+        public void Delete(int id)
+        {
+            var product = _dbSet.FirstOrDefault(x => x.Id.Equals(id));
+            if (product == null) return;
+
+            if (_dbContext.Entry(product).State == EntityState.Detached)
+            {
+                _dbSet.Attach(product);
+            }
+
+            _dbSet.Remove(product);
+
+            _dbContext.SaveChanges();
         }
     }
 }
