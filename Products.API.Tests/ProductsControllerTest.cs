@@ -16,6 +16,7 @@ namespace Products.API.Tests
         {
             this.factory = factory;
         }
+
         [Fact]
         public async Task web_api_basari_testi()
         {
@@ -25,16 +26,10 @@ namespace Products.API.Tests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-
         [Fact]
         public async Task post_request_test()
         {
-            var product = new Product
-            {
-                Name = "TestName",
-                Price = 5,
-                Stock = 1500
-            };
+            var product = new Product { Name = "TestName", Price = 5, Stock = 1500 };
 
             var client = factory.CreateClient();
             var httpContent = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
@@ -42,8 +37,8 @@ namespace Products.API.Tests
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             Assert.NotNull(response.Headers.Location);
-
         }
+
         [Fact]
         public async Task put_request_test()
         {
@@ -55,6 +50,7 @@ namespace Products.API.Tests
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
+
         [Fact]
         public async Task get_by_id_request_test()
         {

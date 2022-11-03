@@ -10,24 +10,20 @@ namespace Products.API.Tests
     {
         public ProductTestContext(DbContextOptions<ProductDbContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            seedData<Product>(modelBuilder, "../../../data/products.json");
+            SeedData<Product>(modelBuilder, "../../../data/products.json");
         }
 
-        private void seedData<T>(ModelBuilder modelBuilder, string file) where T : class
+        private static void SeedData<T>(ModelBuilder modelBuilder, string file) where T : class
         {
-            using (StreamReader reader = new StreamReader(file))
-            {
-                var json = reader.ReadToEnd();
-                var data = JsonConvert.DeserializeObject<T[]>(json);
-                modelBuilder.Entity<T>().HasData(data);
-            }
-
+            using var reader = new StreamReader(file);
+            var json = reader.ReadToEnd();
+            var data = JsonConvert.DeserializeObject<T[]>(json);
+            modelBuilder.Entity<T>().HasData(data);
         }
     }
 }

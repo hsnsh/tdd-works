@@ -8,41 +8,42 @@ namespace Products.API.Services
 {
     public class ProductService : IProductService
     {
-        private ProductDbContext dbContext;
+        private readonly ProductDbContext _dbContext;
 
         public ProductService(ProductDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            this._dbContext = dbContext;
         }
+
         public Product Add(Product product)
         {
-            var entity = dbContext.Products.Add(product).Entity;
-            dbContext.SaveChanges();
+            var entity = _dbContext.Products.Add(product).Entity;
+            _dbContext.SaveChanges();
             return entity;
         }
 
         public Product Delete(int id)
         {
-            var product = dbContext.Products.Find(id);
-            var deletedProduct = dbContext.Products.Remove(product).Entity;
+            var product = _dbContext.Products.Find(id);
+            var deletedProduct = _dbContext.Products.Remove(product).Entity;
             return deletedProduct;
         }
 
         public Product Edit(Product product)
         {
-            dbContext.Entry(product).State = EntityState.Modified;
-            dbContext.SaveChanges();
+            _dbContext.Entry(product).State = EntityState.Modified;
+            _dbContext.SaveChanges();
             return product;
         }
 
         public Product GetProduct(int id)
         {
-            return dbContext.Products.Find(id);
+            return _dbContext.Products.Find(id);
         }
 
         public IEnumerable<Product> GetProducts()
         {
-            return dbContext.Products.ToList();
+            return _dbContext.Products.ToList();
         }
     }
 }

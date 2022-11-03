@@ -8,42 +8,44 @@ namespace Products.API.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private IProductService productService;
+        private readonly IProductService _productService;
 
         public ProductsController(IProductService productService)
         {
-            this.productService = productService;
+            this._productService = productService;
         }
+
         [HttpGet]
         public IActionResult GetProducts()
         {
-            var products = productService.GetProducts();
+            var products = _productService.GetProducts();
             return Ok(products);
         }
+
         [HttpGet("{id}")]
         public IActionResult GetProductById(int id)
         {
-            return Ok(productService.GetProduct(id));
+            return Ok(_productService.GetProduct(id));
         }
+
         [HttpPut("{id}")]
         public IActionResult UpdateProduct(int id, Product product)
         {
-            var existingProduct = productService.GetProduct(id);
+            var existingProduct = _productService.GetProduct(id);
             if (existingProduct == null)
             {
                 return BadRequest($"{id} id'li eleman yok.");
             }
-            existingProduct.Id = id;
-            return Ok(productService.Edit(existingProduct));
 
+            existingProduct.Id = id;
+            return Ok(_productService.Edit(existingProduct));
         }
+
         [HttpPost]
         public IActionResult Add(Product product)
         {
-            var newProduct = productService.Add(product);
+            var newProduct = _productService.Add(product);
             return CreatedAtAction(nameof(GetProductById), new { id = newProduct.Id }, null);
-
         }
-
     }
 }
