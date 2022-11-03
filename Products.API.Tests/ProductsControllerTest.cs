@@ -1,9 +1,7 @@
 using Newtonsoft.Json;
 using Products.API.Models;
 using System.Net;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Products.API.Tests

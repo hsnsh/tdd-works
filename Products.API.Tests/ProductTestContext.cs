@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using Products.API.Data;
 using Products.API.Models;
-using System.IO;
 
 namespace Products.API.Tests
 {

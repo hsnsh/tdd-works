@@ -1,5 +1,4 @@
 ﻿using Products.API.Models;
-using System.Collections.Generic;
 
 namespace Products.API.Services
 {
