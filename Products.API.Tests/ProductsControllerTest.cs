@@ -19,9 +19,13 @@ namespace Products.API.Tests
         [Fact]
         public async Task web_api_basari_testi()
         {
+            //Arrange
             var client = factory.CreateClient();
+
+            //Act
             var response = await client.GetAsync($"{_baseUrl}");
 
+            //Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
