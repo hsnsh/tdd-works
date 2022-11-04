@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Products.API.Data;
 using Products.API.Models;
 
-namespace Products.API.Tests
+namespace Products.API.Tests.Base
 {
     public class ProductTestContext : ProductDbContext
     {

@@ -1,10 +1,11 @@
-using Newtonsoft.Json;
-using Products.API.Models;
 using System.Net;
 using System.Text;
+using Newtonsoft.Json;
+using Products.API.Models;
+using Products.API.Tests.Base;
 using Xunit;
 
-namespace Products.API.Tests
+namespace Products.API.Tests.IntegrationTests
 {
     public class ProductsControllerTest : IClassFixture<InMemoryWebApplicationFactory<Startup>>
     {

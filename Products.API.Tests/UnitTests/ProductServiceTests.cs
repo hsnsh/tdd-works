@@ -2,9 +2,10 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Products.API.Data;
 using Products.API.Services;
+using Products.API.Tests.Base;
 using Xunit;
 
-namespace Products.API.Tests;
+namespace Products.API.Tests.UnitTests;
 
 public class ProductServiceTests
 {
@@ -18,7 +19,7 @@ public class ProductServiceTests
     }
 
     [Fact]
-    public async Task Get_All_Products_Is_Not_Null()
+    public void Get_All_Products_Is_Not_Null()
     {
         //Arrange
         var productContext = new ProductTestContext(_dbOptions);

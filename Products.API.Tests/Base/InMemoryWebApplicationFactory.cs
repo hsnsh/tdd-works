@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Products.API.Data;
 
-namespace Products.API.Tests
+namespace Products.API.Tests.Base
 {
     public class InMemoryWebApplicationFactory<T> : WebApplicationFactory<T> where T : class
     {
