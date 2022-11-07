@@ -354,6 +354,7 @@ MigrationBackup/
 .sonarqube/
 AppCoverageReport/
 AppCoverageReport.*
+*.trx
 
 # Solution specific
 /**/Logs/*
