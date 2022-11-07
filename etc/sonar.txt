@@ -3,18 +3,13 @@ dotnet sonarscanner begin /k:"ProductProject" \
 /d:sonar.login="691e1eaeb9da3db481d0f0f775d8cf2ad20ff1e2" \
 /d:sonar.cs.dotcover.reportsPaths="AppCoverageReport.html" \
 /d:sonar.cs.vstest.reportsPaths="TestResults.trx" \
-/d:sonar.verbose=true \
+/d:sonar.verbose=false \
 /d:sonar.sourceEncoding=UTF-8 
+
+dotnet restore 
 
 dotnet build
 
 dotnet dotcover test --no-build --dcReportType=HTML --dcOutput="AppCoverageReport.html" --logger "trx;LogFileName=../../TestResults.trx"
 
 dotnet sonarscanner end /d:sonar.login="691e1eaeb9da3db481d0f0f775d8cf2ad20ff1e2"
-
-
-
-
-
-dotnet test --logger "trx;LogFileName=../../TestResults.trx"
-dotnet test --logger "junit;LogFilePath=../TestResults.xml"
