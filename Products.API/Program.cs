@@ -1,7 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Products.API;
 
 public static class Program
 {
+    [ExcludeFromCodeCoverage]
     public static void Main(string[] args)
     {
         CreateHostBuilder(args).Build().Run();

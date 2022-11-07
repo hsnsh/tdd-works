@@ -9,19 +9,19 @@ namespace Products.API.Tests.IntegrationTests
 {
     public class ProductsControllerTest : IClassFixture<InMemoryWebApplicationFactory<Startup>>
     {
-        private InMemoryWebApplicationFactory<Startup> factory;
+        private readonly InMemoryWebApplicationFactory<Startup> _factory;
         private readonly string _baseUrl = "/api/v1/products";
 
         public ProductsControllerTest(InMemoryWebApplicationFactory<Startup> factory)
         {
-            this.factory = factory;
+            this._factory = factory;
         }
 
         [Fact]
         public async Task web_api_basari_testi()
         {
             //Arrange
-            var client = factory.CreateClient();
+            var client = _factory.CreateClient();
 
             //Act
             var response = await client.GetAsync($"{_baseUrl}");
@@ -35,7 +35,7 @@ namespace Products.API.Tests.IntegrationTests
         {
             var product = new Product { Name = "TestName", Price = 5, Stock = 1500 };
 
-            var client = factory.CreateClient();
+            var client = _factory.CreateClient();
             var httpContent = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
             var response = await client.PostAsync($"{_baseUrl}", httpContent);
 
@@ -46,10 +46,9 @@ namespace Products.API.Tests.IntegrationTests
         [Fact]
         public async Task put_request_test()
         {
-            var client = factory.CreateClient();
+            var client = _factory.CreateClient();
             var request = new Product { Name = "X", Price = 100, Stock = 10 };
             var httpContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            //Assert.NotNull(headerLocation.PathAndQuery);
             var response = await client.PutAsync($"{_baseUrl}/3", httpContent);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -58,7 +57,7 @@ namespace Products.API.Tests.IntegrationTests
         [Fact]
         public async Task get_by_id_request_test()
         {
-            var client = factory.CreateClient();
+            var client = _factory.CreateClient();
             var response = await client.GetAsync($"{_baseUrl}/3");
             var strinResult = await response.Content.ReadAsStringAsync();
             var jsonObject = JsonConvert.DeserializeObject<Product>(strinResult);

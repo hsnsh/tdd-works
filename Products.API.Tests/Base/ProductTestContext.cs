@@ -14,7 +14,7 @@ namespace Products.API.Tests.Base
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            SeedData<Product>(modelBuilder, "../../../data/products.json");
+            SeedData<Product>(modelBuilder, "../../../base/data/products.json");
         }
 
         private static void SeedData<T>(ModelBuilder modelBuilder, string file) where T : class
