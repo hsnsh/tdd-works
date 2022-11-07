@@ -10,6 +10,6 @@ dotnet restore
 
 dotnet build
 
-dotnet dotcover test --no-build --dcReportType=HTML --dcOutput="AppCoverageReport.html" --logger "trx;LogFileName=../../TestResults.trx"
+dotnet dotcover test --no-build --dcReportType=HTML --dcOutput="AppCoverageReport.html" --logger "trx;LogFileName=./TestResults.trx"
 
 dotnet sonarscanner end /d:sonar.login="691e1eaeb9da3db481d0f0f775d8cf2ad20ff1e2"
