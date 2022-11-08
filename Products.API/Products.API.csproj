@@ -15,4 +15,16 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10"/>
     </ItemGroup>
+
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.coverage.exclusions">
+            <Value>
+                Migrations\**,
+                Data\**,
+                Models\Temp\**,
+                **\Program*.cs,
+                **\*Startup.cs
+            </Value>
+        </SonarQubeSetting>
+    </ItemGroup>
 </Project>

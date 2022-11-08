@@ -13,3 +13,25 @@ dotnet build
 dotnet dotcover test --no-build --dcReportType=HTML --dcOutput="AppCoverageReport.html" --logger "trx;LogFileName=./TestResults.trx"
 
 dotnet sonarscanner end /d:sonar.login="691e1eaeb9da3db481d0f0f775d8cf2ad20ff1e2"
+
+
+
+<Project>
+  <!-- See https://docs.sonarqube.org/7.2/AnalysisParameters.html -->
+  <PropertyGroup>
+    <!-- Exclude current project from analysis-->
+    <!-- <SonarQubeExclude>true</SonarQubeExclude> -->
+  </PropertyGroup>
+  <!-- To exclude a file from from analysis -->
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.coverage.exclusions">
+            <Value>
+                Migrations\**,
+                Data\**,
+                Models\Temp\**,
+                **\Program*.cs,
+                **\*Startup.cs
+            </Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+</Project>
